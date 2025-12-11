@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coolmate Clone - Mua sắm an tâm</title>
+    <title>ANH MEN Clone - Mua sắm an tâm</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -20,25 +20,36 @@
                 <i class="fa-solid fa-bars"></i>
             </div>
 
-            <a href="index.html" class="logo">COOLMATE</a>
+            <a href="index.html" class="logo">ANH MEN</a>
 
             <nav class="main-nav" id="main-nav">
                 <ul>
+                    <li><a href="index.html">TRANG CHỦ</a></li>
                     <li><a href="#">SẢN PHẨM</a></li>
                     <li><a href="#">ĐỒ LÓT</a></li>
                     <li><a href="#">MẶC HÀNG NGÀY</a></li>
                     <li><a href="#">THỂ THAO</a></li>
-                    <li><a href="#">SẢN XUẤT TẠI VIỆT NAM</a></li>
                 </ul>
             </nav>
 
             <div class="header-actions">
+                <!-- 1. Tìm kiếm -->
                 <div class="action-item">
-                    <i class="fa-solid fa-magnifying-glass"></i> </div>
-                <div class="action-item">
-                    <i class="fa-regular fa-user"></i> </div>
-                <div class="action-item">
-                    <i class="fa-solid fa-bag-shopping"></i> <span class="cart-count">0</span>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <!-- 2. Tài khoản (Đặt ID để JS dễ tìm) -->
+                <div class="action-item" id="header-user-container">
+                    <!-- Mặc định là Icon User dẫn tới trang Login -->
+                    <a href="login.html" class="user-link">
+                        <i class="fa-regular fa-user"></i>
+                    </a>
+                </div>
+
+                <!-- 3. Giỏ hàng (Đặt width cố định để không bị đẩy) -->
+                <div class="action-item cart-icon-wrap" onclick="window.location.href='cart.html'">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count">0</span>
                 </div>
             </div>
         </div>
@@ -95,82 +106,45 @@
             </div>
         </section>
 
-        <section class="section-products" id="product-list">
+        <section class="section-products" id="shop-section">
             <div class="container">
                 <div class="section-header">
-                    <h2>ĐỒ THU ĐÔNG</h2>
-                    <a href="#" class="view-more">Xem thêm >></a>
+                    <h2>SẢN PHẨM NỔI BẬT</h2>
                 </div>
 
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <span class="badge-new">Mới</span>
-                            <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/10/25/ao-hoodie-nam-coolmate-form-rong-mau-den-1.jpg" alt="Áo Hoodie">
-                            <button class="btn-quick-add">Thêm vào giỏ</button>
+                <div class="shop-layout">
+                    <aside class="shop-sidebar">
+                        <div class="filter-group">
+                            <h3><i class="fa-solid fa-filter"></i> Bộ lọc</h3>
                         </div>
-                        <div class="product-info">
-                            <div class="color-options">
-                                <span class="color-dot" style="background-color: black;"></span>
-                                <span class="color-dot" style="background-color: gray;"></span>
-                            </div>
-                            <h3 class="product-name"><a href="#">Áo Hoodie Form Rộng</a></h3>
-                            <div class="product-price">
-                                <span class="price-current">399.000đ</span>
-                                <span class="price-old">499.000đ</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="product-card">
-                        <div class="product-image">
-                            <span class="badge-sale">-20%</span>
-                            <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/10/13/ao-khoac-gio-nam-coolmate-trang-chong-nuoc-1.jpg" alt="Áo Khoác Gió">
-                            <button class="btn-quick-add">Thêm vào giỏ</button>
+                        <div class="filter-group">
+                            <h4>Danh mục</h4>
+                            <ul class="filter-list" id="category-filter">
+                                <li>
+                                    <label>
+                                        <input type="radio" name="cat-filter" value="all" checked onchange="handleFilter()"> 
+                                        Tất cả
+                                    </label>
+                                </li>
+                                </ul>
                         </div>
-                        <div class="product-info">
-                            <div class="color-options">
-                                <span class="color-dot" style="background-color: #f0f0f0; border: 1px solid #ddd;"></span>
-                                <span class="color-dot" style="background-color: navy;"></span>
-                            </div>
-                            <h3 class="product-name"><a href="#">Áo Khoác Gió Trượt Nước</a></h3>
-                            <div class="product-price">
-                                <span class="price-current">459.000đ</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/01/quan-dai-nam-ut-jogger-xanh-den-1.jpg" alt="Quần Jogger">
-                            <button class="btn-quick-add">Thêm vào giỏ</button>
+                        <div class="filter-group">
+                            <h4>Sắp xếp theo</h4>
+                            <select id="sort-filter" class="form-control" onchange="handleFilter()">
+                                <option value="newest">Mới nhất</option>
+                                <option value="price_asc">Giá: Thấp đến Cao</option>
+                                <option value="price_desc">Giá: Cao đến Thấp</option>
+                            </select>
                         </div>
-                        <div class="product-info">
-                            <div class="color-options">
-                                <span class="color-dot" style="background-color: #2c3e50;"></span>
-                            </div>
-                            <h3 class="product-name"><a href="#">Quần Jogger Thể Thao</a></h3>
-                            <div class="product-price">
-                                <span class="price-current">299.000đ</span>
-                            </div>
-                        </div>
-                    </div>
+                    </aside>
 
-                    <div class="product-card">
-                        <div class="product-image">
-                            <span class="badge-new">Hot</span>
-                            <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/09/25/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg" alt="Áo Thun Dài Tay">
-                            <button class="btn-quick-add">Thêm vào giỏ</button>
-                        </div>
-                        <div class="product-info">
-                            <div class="color-options">
-                                <span class="color-dot" style="background-color: black;"></span>
-                                <span class="color-dot" style="background-color: white; border: 1px solid #ddd;"></span>
-                            </div>
-                            <h3 class="product-name"><a href="#">Áo Thun Dài Tay Cotton</a></h3>
-                            <div class="product-price">
-                                <span class="price-current">229.000đ</span>
-                            </div>
+                    <div class="shop-content">
+                        <div id="search-result-label" style="margin-bottom: 15px; font-weight: 600; display: none;"></div>
+
+                        <div class="product-grid" id="product-list">
+                            <p>Đang tải dữ liệu...</p>
                         </div>
                     </div>
                 </div>
@@ -195,7 +169,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h3>VỀ COOLMATE</h3>
+                    <h3>VỀ ANH MEN</h3>
                     <ul>
                         <li><a href="#">Câu chuyện thương hiệu</a></li>
                         <li><a href="#">Nhà máy</a></li>
@@ -214,7 +188,7 @@
                     <h3>LIÊN HỆ</h3>
                     <ul>
                         <li><a href="#">Hotline: 1900 272737</a></li>
-                        <li><a href="#">Email: hotro@coolmate.me</a></li>
+                        <li><a href="#">Email: hotro@ANHMEN.me</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -225,7 +199,7 @@
                 </div>
             </div>
             <div class="copyright">
-                © 2025 Coolmate Clone. All rights reserved.
+                © 2025 ANH MEN Clone. All rights reserved.
             </div>
         </div>
     </footer>

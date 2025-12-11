@@ -1,4 +1,4 @@
-// controllers/productController.js
+// backend/controllers/productController.js
 const sql = require('mssql');
 const dbConfig = require('../dbConfig');
 
@@ -14,61 +14,61 @@ exports.getAllCategories = async (req, res) => {
     }
 };
 
-// 2. Lấy danh sách Sản phẩm (Có Lọc & Tìm kiếm & Sắp xếp)
-// GET /api/products?keyword=...&category=...&minPrice=...&sort=...
+// 2. Lấy danh sách Sản phẩm (NÂNG CẤP: Tìm kiếm, Lọc, Sắp xếp)
+// GET /api/products?keyword=...&category=...&sort=...
 exports.getProducts = async (req, res) => {
     try {
         const pool = await sql.connect(dbConfig);
-        const { keyword, categorySlug, minPrice, maxPrice, sort } = req.query;
+        
+        // 1. Lấy tham số từ URL
+        const { keyword, category, sort } = req.query;
 
-        // Bắt đầu chuỗi truy vấn cơ bản
+        // 2. Khởi tạo câu truy vấn cơ bản
         let queryStr = `
-            SELECT p.*, c.Name as CategoryName, c.Slug as CategorySlug 
+            SELECT p.*, c.Name as CategoryName 
             FROM Products p
             JOIN Categories c ON p.CategoryID = c.CategoryID
             WHERE 1=1
         `;
 
+        // 3. Khởi tạo Request và thêm tham số (Chống SQL Injection)
         const request = pool.request();
 
-        // --- Xử lý bộ lọc (Dynamic SQL) ---
-        
-        // 1. Tìm theo tên (Keyword)
+        // --- Xử lý Tìm kiếm (Keyword) ---
         if (keyword) {
+            // Tìm theo tên sản phẩm (có chứa từ khóa)
             request.input('Keyword', sql.NVarChar, `%${keyword}%`);
             queryStr += " AND p.Name LIKE @Keyword";
         }
 
-        // 2. Lọc theo Category Slug
-        if (categorySlug) {
-            request.input('CategorySlug', sql.VarChar, categorySlug);
-            queryStr += " AND c.Slug = @CategorySlug";
+        // --- Xử lý Lọc Danh mục (Category ID) ---
+        if (category && category !== 'all') {
+            request.input('CategoryID', sql.Int, category);
+            queryStr += " AND p.CategoryID = @CategoryID";
         }
 
-        // 3. Lọc theo khoảng giá
-        if (minPrice) {
-            request.input('MinPrice', sql.Decimal, minPrice);
-            queryStr += " AND p.Price >= @MinPrice";
-        }
-        if (maxPrice) {
-            request.input('MaxPrice', sql.Decimal, maxPrice);
-            queryStr += " AND p.Price <= @MaxPrice";
-        }
-
-        // --- Xử lý sắp xếp (Sorting) ---
-        if (sort === 'price_asc') {
-            queryStr += " ORDER BY p.Price ASC";
-        } else if (sort === 'price_desc') {
-            queryStr += " ORDER BY p.Price DESC";
-        } else {
-            queryStr += " ORDER BY p.CreatedAt DESC"; // Mặc định: Mới nhất lên đầu
+        // --- Xử lý Sắp xếp (Sort) ---
+        // Lưu ý: ORDER BY không dùng parameter @Bien được, phải nối chuỗi an toàn
+        switch (sort) {
+            case 'price_asc':
+                queryStr += " ORDER BY p.Price ASC";
+                break;
+            case 'price_desc':
+                queryStr += " ORDER BY p.Price DESC";
+                break;
+            case 'newest':
+            default:
+                queryStr += " ORDER BY p.CreatedAt DESC"; // Mặc định mới nhất
+                break;
         }
 
-        // Thực thi truy vấn
+        // 4. Thực thi
         const result = await request.query(queryStr);
+        
         res.json(result.recordset);
 
     } catch (err) {
+        console.error("Lỗi getProducts:", err);
         res.status(500).json({ error: err.message });
     }
 };

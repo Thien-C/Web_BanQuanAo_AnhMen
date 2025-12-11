@@ -95,7 +95,7 @@ const auth = {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = 'login.html';
+        window.location.href = '/login.html'; 
     },
 
     // Kiểm tra trạng thái đăng nhập để cập nhật UI Header
@@ -103,21 +103,34 @@ const auth = {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = localStorage.getItem('token');
         
-        // Tìm icon User và Text tên user trên Header
-        const userIcon = document.querySelector('.fa-user');
-        
-        if (user && token && userIcon) {
-            // Nếu đã đăng nhập -> Thay icon user bằng tên người dùng
-            // Tìm thẻ cha của icon user (div.action-item)
-            const parent = userIcon.parentElement;
+        // 1. Nếu không có user/token -> Không làm gì (hoặc reset về icon nếu cần)
+        if (!user || !token) return;
+
+        // 2. Tìm thẻ hiển thị tên (nếu đã đăng nhập trước đó)
+        const userNameDisplay = document.getElementById('header-user-name');
+
+        if (userNameDisplay) {
+            // TRƯỜNG HỢP 1: Đã hiển thị tên rồi -> Chỉ cần cập nhật text mới
+            userNameDisplay.textContent = `Hi, ${user.fullName}`;
+        } else {
+            // TRƯỜNG HỢP 2: Chưa hiển thị (đang là icon hình người) -> Tìm icon để thay thế
+            // Tìm icon user (class fa-user)
+            const userIcon = document.querySelector('.fa-user');
             
-            // Xóa icon cũ, thay bằng HTML mới
-            parent.innerHTML = `
-                <span style="font-size: 13px; font-weight: 600; cursor: pointer;">Hi, ${user.fullName}</span>
-                <div class="dropdown-menu">
-                    <a href="#" onclick="auth.logout()">Đăng xuất</a>
-                </div>
-            `;
+            if (userIcon) {
+                const parent = userIcon.parentElement; // Lưu ý: Lúc này parent là thẻ <a> ta vừa thêm ở bước 1
+
+                // Thay thế toàn bộ thẻ <a> bằng nội dung hiển thị tên
+                parent.outerHTML = `
+                    <div class="action-item" style="position: relative; display: inline-block;">
+                        <a href="profile.html" id="header-user-name" style="font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none;">
+                            Hi, ${user.fullName}
+                        </a>
+                        
+                        <a href="#" onclick="auth.logout()" style="font-size: 12px; color: red; margin-left: 5px;">(Thoát)</a>
+                    </div>
+                `;
+            }
         }
     }
 };

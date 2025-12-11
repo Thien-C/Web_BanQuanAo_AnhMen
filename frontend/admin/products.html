@@ -2,127 +2,108 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Sản phẩm - Coolmate Admin</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Quản lý Sản phẩm - ANH MEN Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* ... (Copy lại CSS Sidebar/Layout từ admin/index.html) ... */
-        body { background: #f0f2f5; display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background: #fff; border-right: 1px solid #ddd; position: fixed; height: 100%; padding: 20px; }
-        .sidebar .logo { display: block; margin-bottom: 40px; text-align: center; font-weight: bold; }
-        .menu-item { display: block; padding: 12px 15px; color: #555; margin-bottom: 5px; border-radius: 8px; }
-        .menu-item:hover, .menu-item.active { background: #000; color: #fff; }
-        .main-content { margin-left: 250px; flex: 1; padding: 30px; }
-        .page-header { display: flex; justify-content: space-between; margin-bottom: 30px; }
-        .admin-table { width: 100%; background: #fff; border-collapse: collapse; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-
-        /* CSS CHO MODAL (Cửa sổ bật lên) */
-        .modal {
-            display: none; /* Mặc định ẩn */
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); /* Nền tối mờ */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            width: 500px;
-            max-width: 90%;
-            position: relative;
-        }
-        .close-btn {
-            position: absolute;
-            top: 15px; right: 20px;
-            font-size: 24px; cursor: pointer;
-        }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
-        .preview-img { width: 100px; height: 100px; object-fit: cover; margin-top: 10px; border-radius: 4px; display: none; }
-    </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <a href="../index.html" class="logo">COOLMATE ADMIN</a>
-        <nav style="margin-top: 20px;">
-            <a href="index.html" class="menu-item"><i class="fa-solid fa-box"></i> Quản lý Đơn hàng</a>
-            <a href="products.html" class="menu-item active"><i class="fa-solid fa-shirt"></i> Quản lý Sản phẩm</a>
-            <a href="#" class="menu-item" onclick="auth.logout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+    <div class="admin-wrapper">
+        <nav class="sidebar">
+            <a href="index.html" class="brand">ANH MEN ADMIN</a>
+            <div class="menu">
+                <a href="index.html" class="menu-item">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Đơn hàng
+                </a>
+                <a href="products.html" class="menu-item active">
+                    <i class="fa-solid fa-shirt"></i> Sản phẩm
+                </a>
+                <a href="#" onclick="auth.logout()" class="menu-item logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </a>
+            </div>
         </nav>
-    </aside>
 
-    <main class="main-content">
-        <div class="page-header">
-            <h2>Danh sách Sản phẩm</h2>
-            <button class="btn btn-primary" onclick="openModal('add')">
-                <i class="fa-solid fa-plus"></i> Thêm sản phẩm
-            </button>
-        </div>
-
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Hình ảnh</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Danh mục</th>
-                    <th>Giá</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody id="product-list">
-                </tbody>
-        </table>
-    </main>
-
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2 id="modal-title" style="margin-bottom: 20px;">Thêm sản phẩm mới</h2>
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Quản lý Sản phẩm</h1>
+            </div>
             
-            <form id="product-form">
-                <input type="hidden" id="product-id"> <div class="form-group">
-                    <label>Tên sản phẩm</label>
-                    <input type="text" id="p-name" class="form-control" required>
+            <div class="admin-grid">
+                
+                <div class="col-form">
+                    <div class="card form-card">
+                        <h3 id="form-title">✨ Thêm sản phẩm mới</h3>
+                        <form id="product-form">
+                            <input type="hidden" id="p-id">
+                            
+                            <div class="form-group">
+                                <label>Tên sản phẩm</label>
+                                <input type="text" id="p-name" class="form-control" placeholder="VD: Áo Thun Coolmate..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Danh mục</label>
+                                <select id="p-category" class="form-control" required>
+                                    <option value="">-- Đang tải... --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Giá bán (VNĐ)</label>
+                                <input type="number" id="p-price" class="form-control" placeholder="VD: 299000" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Link Ảnh (URL)</label>
+                                <input type="text" id="p-thumb" class="form-control" placeholder="https://..." required>
+                                <img id="img-preview" src="" style="display:none; width: 100%; margin-top: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mô tả ngắn</label>
+                                <textarea id="p-desc" class="form-control" rows="4" placeholder="Chất liệu, kiểu dáng..."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary" id="btn-save">
+                                    <i class="fa-solid fa-plus"></i> Thêm mới
+                                </button>
+                                <button type="button" class="btn-secondary" id="btn-cancel" onclick="resetForm()" style="display:none;">
+                                    Hủy bỏ
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Danh mục</label>
-                    <select id="p-category" class="form-control">
-                        </select>
+                <div class="col-list">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px;">ID</th>
+                                        <th style="width: 60px;">Ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th style="width: 100px;">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-list">
+                                    <tr><td colspan="5" style="text-align:center">Đang tải dữ liệu...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Giá bán (VNĐ)</label>
-                    <input type="number" id="p-price" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Link Hình ảnh (URL)</label>
-                    <input type="text" id="p-thumbnail" class="form-control" placeholder="https://..." onchange="previewImage(this.value)">
-                    <img id="img-preview" class="preview-img">
-                </div>
-
-                <div class="form-group">
-                    <label>Mô tả ngắn</label>
-                    <textarea id="p-desc" class="form-control" rows="3"></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Lưu sản phẩm</button>
-            </form>
-        </div>
+            </div>
+        </main>
     </div>
 
     <script src="../js/api.js"></script>
+    <script src="js/checkAdmin.js"></script>
     <script src="js/products.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* 1. CẤU HÌNH CHUNG & BIẾN */
 :root {
-    --primary-color: #2f5acf; /* Xanh Coolmate */
+    --primary-color: #2f5acf; /* Xanh ANH MEN */
     --text-color: #333333;
     --bg-color: #ffffff;
     --footer-bg: #000000;
@@ -38,8 +38,7 @@ ul {
     padding: 0 15px;
 }
 
-/* 2. HEADER */
-/* Topbar thông báo nhỏ trên cùng */
+/* 2. HEADER (FIXED) */
 .top-bar {
     background-color: var(--gray-light);
     text-align: center;
@@ -63,59 +62,135 @@ header {
     align-items: center;
 }
 
-/* Logo */
 .logo {
     font-size: 24px;
     font-weight: 800;
     letter-spacing: -1px;
+    text-decoration: none;
+    color: #000;
 }
 
 /* Menu Desktop */
 .main-nav ul {
     display: flex;
     gap: 30px;
+    list-style: none;
 }
 
 .main-nav a {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #333;
+    text-transform: uppercase;
 }
 
 .main-nav a:hover {
     color: var(--primary-color);
 }
 
-/* Header Icons (Search, User, Cart) */
+/* --- HEADER ACTIONS (ICON) --- */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px; /* Khoảng cách giữa các icon */
 }
 
+/* Định dạng chung cho wrapper của icon */
 .action-item {
-    font-size: 18px;
-    position: relative;
+    font-size: 20px;
+    color: #333;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* Cố định chiều cao để căn giữa */
+}
+
+/* Link User (Icon hình người) */
+.user-link {
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+/* Hiển thị tên User khi đăng nhập */
+.user-logged-in {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Căn lề phải */
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.user-name-text {
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    max-width: 100px; /* Giới hạn chiều rộng tên */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logout-link {
+    font-size: 11px;
+    color: #999;
+    text-decoration: underline;
+}
+.logout-link:hover { color: #ff3b30; }
+
+/* Icon Giỏ hàng - Xử lý vị trí Badge */
+.cart-icon-wrap {
+    position: relative;
+    width: fit-content; /* Chỉ rộng bằng icon */
 }
 
 .cart-count {
     position: absolute;
-    top: -8px;
-    right: -10px;
+    top: -5px;
+    right: -8px; /* Đẩy ra góc phải icon */
     background: var(--primary-color);
     color: #fff;
     font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 10px;
+    font-weight: 700;
+    height: 18px;
+    min-width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #fff; /* Viền trắng để tách icon */
 }
 
-/* Hamburger Menu (Mobile) - Ẩn trên Desktop */
+/* Hamburger Menu */
 .hamburger {
     display: none;
     font-size: 24px;
     cursor: pointer;
 }
 
+/* Responsive Header */
+@media (max-width: 900px) {
+    .hamburger { display: block; }
+    .main-nav {
+        position: fixed;
+        top: calc(var(--header-height) + 34px);
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        transition: 0.3s;
+        padding: 20px;
+        flex-direction: column;
+    }
+    .main-nav.active { left: 0; }
+    .main-nav ul { flex-direction: column; gap: 20px; }
+    
+    /* Ẩn tên user dài trên mobile, chỉ hiện icon hoặc tên ngắn */
+    .user-name-text { max-width: 80px; }
+}
 /* 3. MAIN CONTENT (Placeholder) */
 main {
     min-height: 60vh; /* Để đẩy footer xuống dưới */
@@ -790,20 +865,28 @@ footer {
         margin: 0;
     }
 }
-/* --- CSS TRANG GIỎ HÀNG (Cart) --- */
+/* --- CSS TRANG GIỎ HÀNG (Cart) - COOLMATE STYLE --- */
 .page-title {
     font-size: 28px;
     margin-bottom: 30px;
     font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
 }
 
 .cart-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 30px;
+    gap: 40px;
+    align-items: start;
 }
 
-/* Cart Table */
+/* Bảng giỏ hàng */
+.cart-items-col {
+    background: #fff;
+    border-radius: 0px;
+}
+
 .cart-table {
     width: 100%;
     border-collapse: collapse;
@@ -811,75 +894,204 @@ footer {
 
 .cart-table th {
     text-align: left;
-    padding: 10px;
-    border-bottom: 2px solid #eee;
+    padding: 15px 0;
+    border-bottom: 2px solid #000; /* Viền đen đậm */
     font-size: 14px;
-    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #000;
 }
 
 .cart-table td {
-    padding: 20px 10px;
+    padding: 25px 0;
     border-bottom: 1px solid #eee;
     vertical-align: top;
 }
 
+/* Sản phẩm trong giỏ */
 .cart-product-info {
     display: flex;
-    gap: 15px;
+    gap: 20px;
 }
 
 .cart-product-info img {
-    width: 80px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.cart-product-info .name { font-weight: 600; font-size: 15px; }
-.cart-product-info .variant { font-size: 13px; color: #888; margin-top: 4px; }
-.cart-product-info .price { font-weight: 600; margin-top: 5px; }
-
-.remove-btn {
-    cursor: pointer;
-    color: #999;
-    transition: 0.3s;
-}
-.remove-btn:hover { color: #ff3b30; }
-
-.quantity-control.small {
     width: 90px;
-    height: 30px;
+    height: 120px; /* Ảnh dọc */
+    object-fit: cover;
+    border-radius: 4px;
 }
-.quantity-control.small button { width: 25px; }
-.quantity-control.small input { width: 40px; font-size: 13px; }
 
-/* Box Tổng tiền bên phải */
-.summary-box {
-    background: #fff; /* Checkout dùng nền xám nên box này nền trắng */
-    border: 1px solid #eee;
-    padding: 20px;
-    border-radius: 8px;
+.cart-product-info .name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.cart-product-info .variant {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.cart-product-info .price {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+/* Nút số lượng pill shape */
+.quantity-control.small {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    width: fit-content;
+    height: 32px;
+    overflow: hidden;
+}
+
+.quantity-control.small button {
+    width: 30px;
+    height: 100%;
+    background: #fff;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.quantity-control.small button:hover {
+    background: #f5f5f5;
+}
+
+.quantity-control.small input {
+    width: 35px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+
+/* Cột Thành tiền */
+.subtotal {
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    padding-top: 30px !important; 
+}
+
+/* Nút xóa */
+.remove-btn {
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.remove-btn:hover {
+    color: #ff3b30;
+}
+
+/* --- SUMMARY BOX (Cột bên phải) --- */
+.cart-summary-col {
     position: sticky;
-    top: 100px;
+    top: 100px; 
+}
+
+.summary-box {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.summary-box h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     font-size: 15px;
+    color: #555;
 }
 
 .summary-row.total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #000;
     font-weight: 800;
-    font-size: 18px;
-    margin-top: 10px;
+    font-size: 20px;
+    color: #000;
+    align-items: center;
 }
 
-hr {
-    border: 0;
-    border-top: 1px solid #eee;
-    margin: 15px 0;
+.btn-buy-now {
+    display: block;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 25px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn-buy-now:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.trust-badges {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+    .cart-table thead { display: none; }
+    .cart-table tr {
+        display: block;
+        border-bottom: 5px solid #f5f5f5;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    .cart-table td {
+        display: block;
+        padding: 5px 0;
+        border: none;
+    }
+    .subtotal {
+        padding-top: 0 !important;
+        color: var(--primary-color);
+    }
+    .remove-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }
 
 /* --- CSS TRANG CHECKOUT (Thanh toán) --- */
@@ -1013,5 +1225,61 @@ textarea.form-control {
     .cart-summary-col, .checkout-sidebar {
         order: -1; /* Đưa tổng tiền lên đầu trên mobile */
         margin-bottom: 20px;
+    }
+}
+
+/* frontend/css/style.css */
+
+/* Layout Shop (Sidebar - Content) */
+.shop-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* Sidebar 250px, còn lại là Grid */
+    gap: 30px;
+}
+
+/* Sidebar Styles */
+.shop-sidebar {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.filter-group {
+    margin-bottom: 25px;
+}
+
+.filter-group h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.filter-list li {
+    margin-bottom: 10px;
+}
+
+.filter-list label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.filter-list input[type="radio"] {
+    accent-color: var(--primary-color);
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Mobile cho Sidebar */
+@media (max-width: 768px) {
+    .shop-layout {
+        grid-template-columns: 1fr; /* 1 cột duy nhất */
+    }
+    .shop-sidebar {
+        margin-bottom: 20px; /* Đẩy sidebar lên trên hoặc ẩn đi nếu muốn làm menu lọc nâng cao */
     }
 }

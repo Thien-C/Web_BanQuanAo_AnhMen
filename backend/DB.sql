@@ -2,17 +2,17 @@
 USE master;
 GO
 
-IF EXISTS (SELECT * FROM sys.databases WHERE name = 'CoolmateCloneDB')
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ANH MENCloneDB')
 BEGIN
-    ALTER DATABASE CoolmateCloneDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE; -- Ngắt kết nối để drop
-    DROP DATABASE CoolmateCloneDB;
+    ALTER DATABASE ANH MENCloneDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE; -- Ngắt kết nối để drop
+    DROP DATABASE ANH MENCloneDB;
 END
 GO
 
-CREATE DATABASE CoolmateCloneDB;
+CREATE DATABASE ANH MENCloneDB;
 GO
 
-USE CoolmateCloneDB;
+USE ANH MENCloneDB;
 GO
 
 -- 2. Tạo bảng Users (Khách hàng & Admin)
@@ -130,7 +130,7 @@ GO
 -- Thêm User Admin và Khách hàng mẫu
 INSERT INTO Users (FullName, Email, PasswordHash, Role, PhoneNumber, Address)
 VALUES 
-(N'Quản Trị Viên', 'admin@coolmate.fake', 'hashed_password_here', 'Admin', '0909123456', N'Hà Nội'),
+(N'Quản Trị Viên', 'admin@ANH MEN.fake', 'hashed_password_here', 'Admin', '0909123456', N'Hà Nội'),
 (N'Nguyễn Văn A', 'khachhang@gmail.com', 'hashed_password_here', 'Customer', '0912345678', N'TP. Hồ Chí Minh');
 
 -- Thêm Danh mục

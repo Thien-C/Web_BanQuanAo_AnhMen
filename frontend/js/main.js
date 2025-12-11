@@ -1,85 +1,102 @@
-// js/main.js
+// frontend/js/main.js
 
-// 1. HÀM TIỆN ÍCH (HELPER)
-// Chuyển số thành tiền Việt (Ví dụ: 200000 -> 200.000₫)
+// 1. BIẾN TOÀN CỤC LƯU TRẠNG THÁI LỌC
+let currentFilters = {
+    keyword: '',
+    category: 'all',
+    sort: 'newest'
+};
+
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
 };
 
-// 2. LOGIC TẢI DANH MỤC (Categories)
+// 2. LOGIC TẢI DANH MỤC (Render vào cả Sidebar và Menu)
 async function loadCategories() {
     try {
-        // Gọi API lấy danh sách
         const categories = await fetchAPI('/categories');
         
-        // Tìm khung chứa danh mục trong HTML
-        const container = document.querySelector('.category-list');
-        if (!container) return;
-
-        // Xóa dữ liệu mẫu cũ (nếu có)
-        container.innerHTML = '';
-
-        // Tạo HTML cho từng danh mục
-        // Lưu ý: Vì DB chưa có ảnh danh mục, mình dùng ảnh placeholder mặc định
-        const html = categories.map(cat => `
-            <a href="#" class="cat-item">
-                <div class="cat-img">
-                    <img src="https://media.coolmate.me/cdn-cgi/image/width=320,quality=80,format=auto/uploads/img/2023/09/21/ao-nam-1.jpg" alt="${cat.Name}">
-                </div>
-                <span>${cat.Name}</span>
-            </a>
-        `).join('');
-
-        // Gắn vào giao diện
-        container.innerHTML = html;
+        // A. Render vào Sidebar Filter (MỚI)
+        const filterContainer = document.getElementById('category-filter');
+        if (filterContainer) {
+            // Mục "Tất cả" mặc định
+            let html = `<li><label><input type="radio" name="cat-filter" value="all" checked onchange="handleFilter()"> Tất cả</label></li>`;
+            
+            // Các danh mục từ API
+            html += categories.map(cat => `
+                <li>
+                    <label>
+                        <input type="radio" name="cat-filter" value="${cat.CategoryID}" onchange="handleFilter()"> 
+                        ${cat.Name}
+                    </label>
+                </li>
+            `).join('');
+            filterContainer.innerHTML = html;
+        }
 
     } catch (error) {
         console.error('Lỗi tải danh mục:', error);
     }
 }
 
-// 3. LOGIC TẢI SẢN PHẨM (Products)
+// 3. HÀM GỌI API LẤY SẢN PHẨM (Có tham số lọc)
 async function loadProducts() {
+    const container = document.getElementById('product-list');
+    if (!container) return;
+
+    container.innerHTML = '<p>Đang tải dữ liệu...</p>';
+
     try {
-        // Gọi API lấy danh sách sản phẩm
-        const products = await fetchAPI('/products');
+        // Tạo Query String: ?keyword=...&category=...&sort=...
+        const params = new URLSearchParams();
+        if (currentFilters.keyword) params.append('keyword', currentFilters.keyword);
+        if (currentFilters.category !== 'all') params.append('category', currentFilters.category);
+        params.append('sort', currentFilters.sort);
 
-        // Tìm khung chứa sản phẩm (id="product-list" đã tạo ở index.html)
-        const container = document.getElementById('product-list');
-        if (!container) return;
+        const url = `/products?${params.toString()}`;
+        const products = await fetchAPI(url);
 
-        // Nếu chưa có sản phẩm nào
+        // Hiển thị thông báo kết quả tìm kiếm
+        const searchLabel = document.getElementById('search-result-label');
+        if (searchLabel) {
+            if (currentFilters.keyword) {
+                searchLabel.style.display = 'block';
+                searchLabel.innerText = `Kết quả tìm kiếm: "${currentFilters.keyword}" (${products.length} sản phẩm)`;
+            } else {
+                searchLabel.style.display = 'none';
+            }
+        }
+
+        // Nếu không có sản phẩm
         if (products.length === 0) {
-            container.innerHTML = '<p>Chưa có sản phẩm nào.</p>';
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <i class="fa-solid fa-box-open" style="font-size: 40px; color: #ccc;"></i>
+                    <p style="margin-top: 10px;">Không tìm thấy sản phẩm nào phù hợp.</p>
+                    <button class="btn btn-primary" onclick="resetFilters()">Xem tất cả</button>
+                </div>`;
             return;
         }
 
-        // Tạo HTML Product Card
+        // Render HTML Card Sản phẩm
         const html = products.map(product => {
-            // Xử lý ảnh: Nếu DB lưu tên file, ta ghép với đường dẫn (hoặc dùng ảnh mạng nếu là URL full)
-            // Ở đây mình check nếu không phải URL thì dùng ảnh placeholder để tránh lỗi ảnh
             let imgSrc = product.Thumbnail;
-            if (!imgSrc.startsWith('http')) {
-                // Ảnh mặc định nếu link trong DB bị lỗi hoặc là tên file local chưa có
+            // Xử lý ảnh lỗi/ảnh demo
+            if (!imgSrc || !imgSrc.startsWith('http')) {
                 imgSrc = 'https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg';
             }
 
             return `
             <div class="product-card">
                 <div class="product-image">
-                    <span class="badge-new">Mới</span>
                     <a href="product-detail.html?id=${product.ProductID}">
                         <img src="${imgSrc}" alt="${product.Name}">
                     </a>
-                    <button class="btn-quick-add" onclick="quickAdd(${product.ProductID})">
-                        Thêm vào giỏ
+                    <button class="btn-quick-add" onclick="window.location.href='product-detail.html?id=${product.ProductID}'">
+                        Xem chi tiết
                     </button>
                 </div>
                 <div class="product-info">
-                    <div class="color-options">
-                        <span class="color-dot" style="background-color: #000;"></span>
-                        <span class="color-dot" style="background-color: navy;"></span>
-                    </div>
                     <h3 class="product-name">
                         <a href="product-detail.html?id=${product.ProductID}">${product.Name}</a>
                     </h3>
@@ -91,43 +108,73 @@ async function loadProducts() {
             `;
         }).join('');
 
-        // Gắn vào giao diện
         container.innerHTML = html;
 
     } catch (error) {
         console.error('Lỗi tải sản phẩm:', error);
-        const container = document.getElementById('product-list');
-        if (container) container.innerHTML = '<p style="color:red">Lỗi kết nối Server!</p>';
+        container.innerHTML = '<p style="color:red">Lỗi kết nối Server!</p>';
     }
 }
 
-// Hàm thêm nhanh vào giỏ (Sẽ hoàn thiện ở phần sau)
-function quickAdd(productId) {
-    alert('Vui lòng vào chi tiết sản phẩm để chọn Size/Màu!');
-    window.location.href = `product-detail.html?id=${productId}`;
+// 4. XỬ LÝ SỰ KIỆN LỌC (Khi chọn Danh mục hoặc Sắp xếp)
+function handleFilter() {
+    // Lấy category từ radio button đang check
+    const catRadio = document.querySelector('input[name="cat-filter"]:checked');
+    currentFilters.category = catRadio ? catRadio.value : 'all';
+
+    // Lấy sort từ select box
+    const sortSelect = document.getElementById('sort-filter');
+    currentFilters.sort = sortSelect ? sortSelect.value : 'newest';
+
+    loadProducts(); // Gọi lại API
 }
 
-// 4. CHẠY KHI TRANG WEB TẢI XONG
+// 5. XỬ LÝ TÌM KIẾM (Khi nhấn Enter ở ô tìm kiếm)
+function handleSearch(e) {
+    if (e.key === 'Enter') {
+        currentFilters.keyword = e.target.value.trim();
+        
+        // Reset danh mục về tất cả để tìm rộng hơn
+        currentFilters.category = 'all';
+        const allRadio = document.querySelector('input[name="cat-filter"][value="all"]');
+        if (allRadio) allRadio.checked = true;
+
+        loadProducts();
+        
+        // Cuộn màn hình xuống phần sản phẩm
+        document.getElementById('shop-section').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// 6. RESET BỘ LỌC
+function resetFilters() {
+    currentFilters = { keyword: '', category: 'all', sort: 'newest' };
+    
+    // Reset UI
+    const allRadio = document.querySelector('input[name="cat-filter"][value="all"]');
+    if(allRadio) allRadio.checked = true;
+    
+    const sortSelect = document.getElementById('sort-filter');
+    if(sortSelect) sortSelect.value = 'newest';
+    
+    const searchInput = document.querySelector('.header-actions input');
+    if(searchInput) searchInput.value = '';
+
+    loadProducts();
+}
+
+// 7. KHỞI CHẠY
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Tải dữ liệu từ API
     loadCategories();
     loadProducts();
 
-    // 2. Logic Mobile Menu (Code cũ giữ lại)
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const nav = document.getElementById('main-nav');
-
-    if (mobileBtn) {
-        mobileBtn.addEventListener('click', () => {
-            nav.classList.toggle('active');
-            const icon = mobileBtn.querySelector('i');
-            if (nav.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            }
-        });
+    // Biến icon kính lúp thành ô nhập liệu (nếu chưa có)
+    const searchIcon = document.querySelector('.fa-magnifying-glass');
+    if (searchIcon && searchIcon.parentElement) {
+        searchIcon.parentElement.innerHTML = `
+            <input type="text" placeholder="Tìm kiếm..." 
+            style="border: none; border-bottom: 1px solid #ccc; outline: none; padding: 5px; font-size: 14px;" 
+            onkeypress="handleSearch(event)">
+        `;
     }
 });
