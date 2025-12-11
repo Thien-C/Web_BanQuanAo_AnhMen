@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Coolmate Clone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-container { max-width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .btn-full { width: 100%; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <header style="text-align: center; padding: 20px; border-bottom: 1px solid #eee;">
+        <a href="index.html" class="logo">COOLMATE</a>
+    </header>
+
+    <div class="auth-container">
+        <h2 style="text-align: center; margin-bottom: 20px;">Đăng Nhập</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" class="form-control" required placeholder="Nhập email...">
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" id="password" class="form-control" required placeholder="Nhập mật khẩu...">
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Đăng Nhập</button>
+        </form>
+        <p style="margin-top: 15px; text-align: center;">
+            Chưa có tài khoản? <a href="#" onclick="switchMode()" style="color: blue; text-decoration: underline;">Đăng ký ngay</a>
+        </p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Xử lý sự kiện Submit Form
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Chặn reload trang
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Gọi hàm login từ api.js
+            await auth.login(email, password);
+        });
+
+        function switchMode() {
+            alert('Chức năng chuyển qua Đăng ký (Bạn có thể tự làm thêm form đăng ký tương tự!)');
+        }
+    </script>
+</body>
+</html>

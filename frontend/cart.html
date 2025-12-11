@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - Coolmate Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <div class="hamburger" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+            <a href="index.html" class="logo">COOLMATE</a>
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="index.html">TRANG CHỦ</a></li>
+                    <li><a href="#">SẢN PHẨM</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="action-item"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="action-item"><i class="fa-regular fa-user"></i></div>
+                <div class="action-item"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count">2</span></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container pd-page">
+        <h1 class="page-title">Giỏ hàng của bạn</h1>
+
+        <div class="cart-layout">
+            <div class="cart-items-col">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Tạm tính</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="cart-product-info">
+                                    <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg" alt="Product">
+                                    <div>
+                                        <p class="name">Áo Thun Cotton Compact</p>
+                                        <p class="variant">Màu: Đen / Size: L</p>
+                                        <p class="price">229.000đ</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="quantity-control small">
+                                    <button>-</button>
+                                    <input type="number" value="1">
+                                    <button>+</button>
+                                </div>
+                            </td>
+                            <td class="subtotal">229.000đ</td>
+                            <td><i class="fa-regular fa-trash-can remove-btn"></i></td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="cart-product-info">
+                                    <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/10/25/ao-hoodie-nam-coolmate-form-rong-mau-den-1.jpg" alt="Product">
+                                    <div>
+                                        <p class="name">Áo Hoodie Form Rộng</p>
+                                        <p class="variant">Màu: Đen / Size: XL</p>
+                                        <p class="price">399.000đ</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="quantity-control small">
+                                    <button>-</button>
+                                    <input type="number" value="1">
+                                    <button>+</button>
+                                </div>
+                            </td>
+                            <td class="subtotal">399.000đ</td>
+                            <td><i class="fa-regular fa-trash-can remove-btn"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cart-summary-col">
+                <div class="summary-box">
+                    <h3>Tóm tắt đơn hàng</h3>
+                    <div class="summary-row">
+                        <span>Tạm tính:</span>
+                        <span>628.000đ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Giảm giá:</span>
+                        <span>0đ</span>
+                    </div>
+                    <hr>
+                    <div class="summary-row total">
+                        <span>Tổng tiền:</span>
+                        <span class="total-price">628.000đ</span>
+                    </div>
+                    
+                    <a href="checkout.html" class="btn btn-buy-now" style="display: block; text-align: center; margin-top: 20px;">
+                        Thanh toán ngay
+                    </a>
+                    
+                    <div class="trust-badges">
+                        <p><i class="fa-solid fa-shield-halved"></i> Bảo mật thanh toán 100%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center; color: white; padding: 20px; background: #000;">
+            © 2025 Coolmate Clone
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    
+    <script src="js/cart.js"></script>
+</body>
+</html>

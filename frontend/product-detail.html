@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - Coolmate Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <div class="hamburger" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></div>
+            <a href="index.html" class="logo">COOLMATE</a>
+            <nav class="main-nav" id="main-nav">
+                <ul>
+                    <li><a href="index.html">TRANG CHỦ</a></li>
+                    <li><a href="#">SẢN PHẨM</a></li>
+                    <li><a href="#">ĐỒ THỂ THAO</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="action-item"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="action-item"><i class="fa-regular fa-user"></i></div>
+                <div class="action-item">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 20px; font-size: 14px; color: #666;">
+        <a href="index.html">Trang chủ</a> > <span id="breadcrumb-name">Áo Thun Cotton Compact</span>
+    </div>
+
+    <main class="container pd-page">
+        <div class="product-layout">
+            
+            <div class="product-gallery">
+                <div class="main-img-wrap">
+                    <img id="main-image" src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg" alt="Sản phẩm">
+                </div>
+                <div class="thumb-list">
+                    <div class="thumb-item active" onclick="changeImage(this, 'https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg')">
+                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg">
+                    </div>
+                    <div class="thumb-item" onclick="changeImage(this, 'https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-2.jpg')">
+                        <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-2.jpg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-info-col">
+                <h1 class="pd-title">Áo Thun Dài Tay Cotton Compact</h1>
+                
+                <div class="pd-price">
+                    <span class="current-price">229.000đ</span>
+                    <span class="old-price">299.000đ</span>
+                    <span class="discount-tag">-24%</span>
+                </div>
+
+                <div class="pd-reviews">
+                    <i class="fa-solid fa-star text-yellow"></i>
+                    <i class="fa-solid fa-star text-yellow"></i>
+                    <i class="fa-solid fa-star text-yellow"></i>
+                    <i class="fa-solid fa-star text-yellow"></i>
+                    <i class="fa-solid fa-star text-yellow"></i>
+                    <span>(145 đánh giá)</span>
+                </div>
+
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+                <div class="variant-group">
+                    <p class="variant-label">Màu sắc: <span id="selected-color-name" style="font-weight: 600;">Đen</span></p>
+                    <div class="option-list" id="color-options">
+                        <button class="opt-btn color-btn selected" data-color="Đen" style="background-color: #000;"></button>
+                        <button class="opt-btn color-btn" data-color="Trắng" style="background-color: #fff; border: 1px solid #ccc;"></button>
+                        <button class="opt-btn color-btn" data-color="Xanh Navy" style="background-color: navy;"></button>
+                    </div>
+                </div>
+
+                <div class="variant-group">
+                    <div class="flex-between">
+                        <p class="variant-label">Kích thước: <span id="selected-size-name" style="font-weight: 600;">L</span></p>
+                        <a href="#" style="font-size: 13px; text-decoration: underline;">Hướng dẫn chọn size</a>
+                    </div>
+                    <div class="option-list" id="size-options">
+                        <button class="opt-btn size-btn">M</button>
+                        <button class="opt-btn size-btn selected">L</button>
+                        <button class="opt-btn size-btn">XL</button>
+                        <button class="opt-btn size-btn">2XL</button>
+                    </div>
+                </div>
+
+                <div class="variant-group">
+                    <p class="variant-label">Số lượng:</p>
+                    <div class="quantity-control">
+                        <button>-</button>
+                        <input type="number" value="1" min="1">
+                        <button>+</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-add-cart">
+                        <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
+                    <button class="btn btn-buy-now">Mua ngay</button>
+                </div>
+
+                <div class="policy-grid">
+                    <div class="policy-item">
+                        <img src="https://www.coolmate.me/images/icons/icon3.svg" width="30">
+                        <span>Đổi trả cực dễ<br>chỉ cần sđt</span>
+                    </div>
+                    <div class="policy-item">
+                        <img src="https://www.coolmate.me/images/icons/icon4.svg" width="30">
+                        <span>Miễn phí vận chuyển<br>đơn hàng >200k</span>
+                    </div>
+                    <div class="policy-item">
+                        <img src="https://www.coolmate.me/images/icons/icon5.svg" width="30">
+                        <span>60 ngày đổi trả<br>bất cứ lí do gì</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-tabs">
+            <div class="tab-header">
+                <div class="tab-item active">Chi tiết sản phẩm</div>
+                <div class="tab-item">Đánh giá (145)</div>
+            </div>
+            <div class="tab-content">
+                <p>Mô tả chi tiết sản phẩm sẽ hiển thị ở đây. Chất liệu cotton compact cao cấp, thấm hút mồ hôi tốt...</p>
+                <img src="https://m.media-amazon.com/images/S/aplus-media/vc/6a946b5a-581d-4443-b939-247551068808.__CR0,0,970,300_PT0_SX970_V1___.jpg" style="width: 100%; margin-top: 20px;">
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container" style="text-align: center; color: white; padding: 20px;">
+            © 2025 Coolmate Clone
+        </div>
+    </footer>
+
+    <script>
+        // Đổi ảnh khi click thumbnail
+        function changeImage(element, src) {
+            document.getElementById('main-image').src = src;
+            document.querySelectorAll('.thumb-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Chọn Size/Màu (Hiệu ứng viền đen)
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                document.getElementById('selected-size-name').innerText = btn.innerText;
+            });
+        });
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    
+    <script src="js/cart.js"></script>
+</body>
+</html>

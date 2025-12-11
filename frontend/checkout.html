@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - Coolmate Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* CSS riêng nhỏ cho trang checkout để ẩn Header/Footer full */
+        body { background: #f4f4f4; }
+        .checkout-header { background: #fff; padding: 15px 0; border-bottom: 1px solid #ddd; }
+        .logo-center { text-align: center; font-size: 24px; font-weight: 800; display: block;}
+    </style>
+</head>
+<body>
+
+    <header class="checkout-header">
+        <a href="index.html" class="logo-center">COOLMATE</a>
+    </header>
+
+    <main class="container pd-page">
+        <form action="" id="checkout-form">
+            <div class="checkout-layout">
+                
+                <div class="checkout-info">
+                    <div class="section-box">
+                        <h2 class="section-title">Thông tin giao hàng</h2>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Họ và tên người nhận" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="email" class="form-control" placeholder="Email (để nhận đơn hàng)">
+                            <input type="text" class="form-control" placeholder="Số điện thoại" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Địa chỉ (Số nhà, đường...)" required>
+                        </div>
+                        <div class="form-row">
+                            <select class="form-control"><option>Hà Nội</option></select>
+                            <select class="form-control"><option>Quận/Huyện</option></select>
+                            <select class="form-control"><option>Phường/Xã</option></select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Ghi chú thêm (Ví dụ: Giao giờ hành chính)"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="section-box">
+                        <h2 class="section-title">Phương thức thanh toán</h2>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <div class="payment-content">
+                                    <span>Thanh toán khi nhận hàng (COD)</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="banking">
+                                <div class="payment-content">
+                                    <span>Chuyển khoản ngân hàng (QR Code)</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-sidebar">
+                    <div class="summary-box">
+                        <h3 style="margin-bottom: 15px;">Đơn hàng (2 sản phẩm)</h3>
+                        
+                        <div class="mini-cart-list">
+                            <div class="mini-item">
+                                <div class="mini-img">
+                                    <span class="qty-badge">1</span>
+                                    <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/11/02/ao-thun-dai-tay-nam-cotton-compact-v2-den-1.jpg">
+                                </div>
+                                <div class="mini-info">
+                                    <p class="mini-name">Áo Thun Cotton Compact - Đen / L</p>
+                                </div>
+                                <div class="mini-price">229.000đ</div>
+                            </div>
+                            
+                            <div class="mini-item">
+                                <div class="mini-img">
+                                    <span class="qty-badge">1</span>
+                                    <img src="https://media.coolmate.me/cdn-cgi/image/width=672,quality=80,format=auto/uploads/img/2023/10/25/ao-hoodie-nam-coolmate-form-rong-mau-den-1.jpg">
+                                </div>
+                                <div class="mini-info">
+                                    <p class="mini-name">Áo Hoodie Form Rộng - Đen / XL</p>
+                                </div>
+                                <div class="mini-price">399.000đ</div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="summary-row">
+                            <span>Tạm tính</span>
+                            <span>628.000đ</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Phí vận chuyển</span>
+                            <span>Miễn phí</span>
+                        </div>
+                        <hr>
+                        <div class="summary-row total">
+                            <span>Tổng cộng</span>
+                            <span class="total-price">628.000đ</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-buy-now" style="width: 100%; margin-top: 20px;">
+                            HOÀN TẤT ĐƠN HÀNG
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    
+    <script src="js/cart.js"></script>
+</body>
+</html>
